@@ -19,16 +19,9 @@ const UrlShortener = () => {
     try {
       console.log(import.meta.env.VITE_SHORTIO_DOMAIN);
       const response = await axios.post(
-        "https://api.short.io/links",
+        "https://shortener-func.azurewebsites.net/api/shorten?",
         {
           originalURL: originalUrl,
-          domain: import.meta.env.VITE_SHORTIO_DOMAIN,
-        },
-        {
-          headers: {
-            authorization: import.meta.env.VITE_SHORTIO_API_KEY,
-            "Content-Type": "application/json",
-          },
         }
       );
       //   return response.data.shortURL;
