@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-// const SHORTIO_API_KEY = "sk_vTsaBtEa9gNkKutZ";
-// const SHORTIO_DOMAIN = "gautamahuja.me";
-
 const UrlShortener = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setShortUrl("");
     setCopied(false);
+    setLoading(true);
 
     try {
-      console.log(import.meta.env.VITE_SHORTIO_DOMAIN);
       const response = await axios.post(
         "https://shortener-func.azurewebsites.net/api/shorten?",
         {
           originalURL: originalUrl,
         }
       );
-      //   return response.data.shortURL;
       setShortUrl(response.data.shortURL);
     } catch (err) {
       setError("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,9 +53,13 @@ const UrlShortener = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
         >
-          Shorten URL
+          {loading ? (
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            "Shorten URL"
+          )}
         </button>
       </form>
 
@@ -72,9 +75,10 @@ const UrlShortener = () => {
           </a>
           <button
             onClick={handleCopy}
-            className="bg-gray-200 text-sm px-3 py-1 rounded hover:bg-gray-300"
+            className="text-sm px-3 py-1 rounded hover:bg-gray-200 transition"
+            title="Copy to clipboard"
           >
-            {copied ? "Copied!" : "Copy"}
+            {copied ? "✅ Copied!" : "📝"}
           </button>
         </div>
       )}
