@@ -42,6 +42,12 @@ const UrlShortener = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mt-20 px-4">
+      <p className="text-center text-gray-700 text-lg mb-6 max-w-2xl">
+        This is a simple and fast URL shortener built with React. Paste a long
+        URL, click "Shorten URL", and get a shortened link instantly using a
+        backend powered by Azure Functions. You can easily copy the result to
+        your clipboard using the built-in copy button.
+      </p>
       <form onSubmit={handleSubmit} className="w-full max-w-xl space-y-4">
         <input
           type="url"
